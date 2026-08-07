@@ -1,0 +1,36 @@
+#Not to do list API
+@baseURL = http://localhost:8000/api/v1/tasks
+
+
+### POST the task list
+POST {{baseURL}}
+Content-Type: application/json
+
+
+{
+    "id": "3",
+    "task": "Cooking",
+    "hr": 20
+}
+
+
+
+### GET the task list
+GET {{baseURL}}
+
+
+### PUT the task list
+PATCH {{baseURL}}
+Content-Type: application/json
+
+
+{
+    "id": 2,
+    "type": "bad"
+}
+
+
+
+
+### DELETE the task list
+DELETE {{baseURL}}/2
