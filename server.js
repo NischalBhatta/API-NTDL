@@ -18,6 +18,14 @@ app.use("/", (req, res) => {
   });
 });
 
+// 404 handler - catches any route not matched above
+app.use((req, res) => {
+  res.status(404).json({
+    status: "fail",
+    message: `Route ${req.originalUrl} not found`,
+  });
+});
+
 app.listen(PORT, (error) => {
   error
     ? console.log(error)
