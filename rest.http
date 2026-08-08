@@ -33,4 +33,4 @@ Content-Type: application/json
 
 
 ### DELETE the task list
-DELETE {{baseURL}}/2
+DELETE {{baseURL}}/3
