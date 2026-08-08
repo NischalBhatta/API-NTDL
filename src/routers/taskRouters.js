@@ -48,12 +48,9 @@ router.get("/", (req, res, next) => {
 router.patch("/", (req, res, next) => {
   const { id, type } = req.body;
 
-  fakeDB.map((item) => {
+  fakeDB.forEach((item) => {
     if (item.id === id) {
       item.type = type;
-      return item;
-    } else {
-      return item;
     }
   });
   res.json({
