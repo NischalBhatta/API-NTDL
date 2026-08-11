@@ -2,6 +2,9 @@ import express from "express";
 const PORT = 8000;
 const app = express();
 import morgan from "morgan";
+import { connectMongoDB } from "./dbConfig.js";
+
+connectMongoDB();
 
 app.use(morgan("dev"));
 
