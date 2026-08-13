@@ -1,5 +1,13 @@
 import express from "express";
+
 const router = express.Router();
+
+import {
+  deleteTask,
+  getTask,
+  insertTask,
+  updateTask,
+} from "../models/taskModels/taskSchema.js";
 
 // router.all("/", (req, res, next) => {
 //   // res.json({
@@ -9,64 +17,61 @@ const router = express.Router();
 //   // next();
 // });
 
-let fakeDB = [
-  {
-    id: 1,
-    task: "Coding",
-    hr: 20,
-    type: "entry",
-  },
-  {
-    id: 2,
-    task: "Coding",
-    hr: 20,
-    type: "entry",
-  },
-  {
-    id: 3,
-    task: "Cooking",
-    hr: 20,
-    type: "entry",
-  },
-];
+// selecting the database tables
 
-router.post("/", (req, res, next) => {
-  fakeDB.push(req.body);
-  console.log(fakeDB);
+router.post("/", async (req, res, next) => {
+  try {
+    //inser task
+    const result = await insertTask(req.body);
+    console.log(result);
+    res.json({
+      status: "success",
+      message: "New task has been added successfully",
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
+
+router.get("/", async (req, res, next) => {
+  // do your code
+  // db.c.find()
+  const tasks = await getTask();
+
   res.json({
     status: "success",
-    message: "New Task Added",
+    message: "Here are the task list",
+    tasks,
   });
 });
-router.get("/", (req, res, next) => {
-  res.json({
-    status: "success",
-    message: "Here are the task List",
-    task: fakeDB,
-  });
-});
-router.patch("/", (req, res, next) => {
-  const { id, type } = req.body;
 
-  fakeDB.forEach((item) => {
-    if (item.id === id) {
-      item.type = type;
-    }
-  });
+router.patch("/", async (req, res, next) => {
+  // do your code
+  const { _id, ...rest } = req.body;
+  console.log(req.body);
+  const result = await updateTask(_id, rest);
+
   res.json({
     status: "success",
     message: "Your task has been updated",
-    task: fakeDB,
+    result,
   });
 });
-router.delete("/:id", (req, res, next) => {
-  const { id } = req.params;
 
-  fakeDB = fakeDB.filter((item) => item.id !== +id);
-  console.log(id);
+router.delete("/:_id", async (req, res, next) => {
+  // do your code
+
+  const { _id } = req.params;
+
+  const result = await deleteTaskk(_id);
   res.json({
     status: "success",
     message: "Your task has been deleted",
+    result,
   });
 });
 

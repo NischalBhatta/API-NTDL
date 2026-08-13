@@ -2,13 +2,16 @@ import express from "express";
 const PORT = 8000;
 const app = express();
 import morgan from "morgan";
-import { connectMongoDB } from "./dbConfig.js";
+import cors from "cors";
+import { connectMongoDB } from "./src/config/dbConfig.js";
 
 connectMongoDB();
 
 app.use(morgan("dev"));
 
 app.use(express.json());
+
+app.use(cors());
 
 import taskRouters from "./src/routers/taskRouters.js";
 
