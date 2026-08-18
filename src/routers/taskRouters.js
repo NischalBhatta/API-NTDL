@@ -47,7 +47,7 @@ router.get("/", async (req, res, next) => {
   // db.c.find()
   const tasks = await getTask();
 
-  res.json({
+  return res.json({
     status: "success",
     message: "Here are the task list",
     tasks,
@@ -56,15 +56,29 @@ router.get("/", async (req, res, next) => {
 
 router.patch("/", async (req, res, next) => {
   // do your code
-  const { _id, ...rest } = req.body;
-  console.log(req.body);
-  const result = await updateTask(_id, rest);
+  try {
+    const { _id, ...rest } = req.body;
+    // return console.log(req.body);
+    const result = await updateTask(_id, rest);
 
-  res.json({
-    status: "success",
-    message: "Your task has been updated",
-    result,
-  });
+    result?._id
+      ? res.json({
+          status: "success",
+          message: "Your task has been updated",
+          result,
+        })
+      : res.json({
+          status: "error",
+          message: "Not able to update task, please try again",
+          result,
+        });
+  } catch (error) {
+    console.log(error.message);
+    res.json({
+      status: "error",
+      message: error.message,
+    });
+  }
 });
 
 router.delete("/:_id", async (req, res, next) => {
