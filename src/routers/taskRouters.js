@@ -81,17 +81,29 @@ router.patch("/", async (req, res, next) => {
   }
 });
 
-router.delete("/:_id", async (req, res, next) => {
+router.delete("/", async (req, res, next) => {
   // do your code
 
-  const { _id } = req.params;
-
-  const result = await deleteTaskk(_id);
-  res.json({
-    status: "success",
-    message: "Your task has been deleted",
-    result,
-  });
+  try {
+    console.log(req.body);
+    const result = await deleteTask(req.body);
+    console.log(result.deletedCount);
+    result?.deletedCount > 0
+      ? res.json({
+          status: "success",
+          message: "Your task has been deleted",
+        })
+      : res.json({
+          status: "error",
+          message: "Unable to delete task, please try again later",
+        });
+  } catch (error) {
+    console.log(error.message);
+    res.json({
+      status: "error",
+      message: error.message,
+    });
+  }
 });
 
 export default router;
