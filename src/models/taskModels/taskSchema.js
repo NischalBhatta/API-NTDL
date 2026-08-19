@@ -3,7 +3,12 @@ import mongoose from "mongoose";
 const taskSchema = new mongoose.Schema(
   {
     task: { type: String, required: true },
-    hr: { type: Number, required: true, min: 1, max: 100 },
+    hr: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: [100, "Are you sure boss, it seems to much"],
+    },
     type: { type: String, default: "entry", enum: ["entry", "bad"] },
   },
   {
